@@ -1,22 +1,30 @@
 use std::{
+    env,
     error::Error,
-    fs::File,
+    fs::{self, File, OpenOptions},
     io::{BufWriter, Cursor, Write},
-    path::{Path, PathBuf},
+    path::{self, Path, PathBuf},
 };
 
 use bytes::Bytes;
 use flate2::read::GzDecoder;
-use log::info;
+use log::{debug, info, warn};
 use reqwest::Client;
 use serde_json::Value;
 use tar::Archive;
 
-mod constrants;
-use constrants::*;
+use crate::{
+    constrants::{
+        CRATES_IO_BASE_URL, LIB_DEFINE, NPM_BASE_URL, NPM_PACKAGE_PATH, OUTPUT_DIR, OUTPUT_FILE,
+        SIMPLE_ICONS_NPM_JSON_FILENAME, SIMPLE_ICONS_NPM_JSON_RELATIVE_DIR,
+    },
+    simple_icons::file_to_json,
+    types::{CratesIOInformation, Icon, Icons, JsonIcons, NpmInformation},
+};
 
+mod constrants;
+mod simple_icons;
 mod types;
-use types::*;
 
 async fn get_npm_version(package: &str) -> Result<NpmInformation, Box<dyn Error>> {
     let package_url: String = format!("{}{}", NPM_BASE_URL, package);
@@ -58,7 +66,10 @@ async fn download_and_extract_npm_tarball(npm_package: NpmInformation) {
     let tar = GzDecoder::new(cursor);
     let mut archive = Archive::new(tar);
     let _ = archive.unpack(&dir);
-    info!("npm package already download and decompress under 'build' folder");
+    info!(
+        "npm package already download and decompress under '{}' folder",
+        OUTPUT_DIR
+    );
 }
 
 async fn get_crates_io_version(package: &str) -> Result<CratesIOInformation, Box<dyn Error>> {
@@ -68,7 +79,7 @@ async fn get_crates_io_version(package: &str) -> Result<CratesIOInformation, Box
     // crates.io require add "User-Agent" header to track usage
     let response: Value = client
         .get(package_url)
-        .header("User-Agent", "simple-icons-rs")
+        .header("User-Agent", "github.com/cscnk52/simple-icons-rs")
         .send()
         .await?
         .json()
@@ -89,16 +100,70 @@ async fn get_crates_io_version(package: &str) -> Result<CratesIOInformation, Box
 
 fn generate_file() {
     let output_dir: PathBuf = Path::new(env!("CARGO_MANIFEST_DIR")).join(OUTPUT_DIR);
+    debug!("output_dir: {:#?}", output_dir);
     let file_path: PathBuf = output_dir.join(OUTPUT_FILE);
+    debug!("file_path: {:#?}", file_path);
 
-    if !output_dir.exists() {
-        std::fs::create_dir(&output_dir).unwrap();
-    }
-    let file: File = File::create_new(file_path).unwrap();
+    let _ = fs::create_dir_all(&output_dir);
+
+    let file: File = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        // remove existed content if exist
+        .truncate(true)
+        .open(&file_path)
+        .unwrap();
+
+    let simple_icons_json_path = output_dir
+        .join(NPM_PACKAGE_PATH)
+        .join(SIMPLE_ICONS_NPM_JSON_RELATIVE_DIR)
+        .join(SIMPLE_ICONS_NPM_JSON_FILENAME);
+    debug!("simple_icons_json_path: {:#?}", simple_icons_json_path);
+
+    let json = file_to_json(simple_icons_json_path).unwrap();
+
+    assert!(
+        json.is_array(),
+        "json should be array, but actually be {}",
+        json
+    );
+
+    let json_icons: JsonIcons = serde_json::from_value(json.clone()).expect("Failed to parse json");
+
+    let icons: Icons = json_icons
+        .into_iter()
+        .map(|icon| {
+            let slug = icon.slug.split("_").next().unwrap_or("").to_string();
+            let svg = read_svg(&slug);
+            Icon {
+                title: icon.title,
+                hex: icon.hex,
+                source: icon.source,
+                slug,
+                svg,
+            }
+        })
+        .collect();
 
     let mut content: BufWriter<File> = BufWriter::new(file);
 
     write!(content, "{}", LIB_DEFINE).unwrap();
+
+    write!(content, "{:#?}", icons).unwrap();
+}
+
+pub fn read_svg(slug: &str) -> String {
+    let path: PathBuf = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join(OUTPUT_DIR)
+        .join(NPM_PACKAGE_PATH)
+        .join("icons")
+        .join(format!("{}.svg", slug));
+
+    fs::read_to_string(path).unwrap_or_else(|_| {
+        warn!("Failed to read SVG with slug: {}", slug);
+        String::new()
+    })
 }
 
 #[tokio::main]
