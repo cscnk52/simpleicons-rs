@@ -1,5 +1,5 @@
 use std::{
-    env, error::Error, fmt::format, fs::{self, File, OpenOptions}, io::{BufWriter, Cursor, Write}, path::{Path, PathBuf}
+    env, error::Error, fs::{self, File, OpenOptions}, io::{BufWriter, Cursor, Write}, path::{Path, PathBuf}
 };
 
 use bytes::Bytes;
