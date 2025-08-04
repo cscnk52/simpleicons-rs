@@ -16,17 +16,17 @@ pub struct CratesIOInformation {
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct JsonIcon {
     pub title: String,
+    pub slug: String,
     pub hex: String,
     pub source: String,
-    pub slug: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Icon {
     pub title: String,
+    pub slug: String,
     pub hex: String,
     pub source: String,
-    pub slug: String,
     pub svg: String,
 }
 

@@ -5,24 +5,27 @@ use std::{
 };
 
 use serde_json::Value;
+use unicode_normalization::UnicodeNormalization;
+
+use crate::constants::{REMOVE_REGEX, TITLE_TO_SLUG_REPLACEMENTS};
 
 /// convert simple icons title to slug
 /// see [Contribution](https://github.com/simple-icons/simple-icons/blob/develop/CONTRIBUTING.md#6-name-the-icon) doc for more information
-// pub fn title_to_slug(title: &str) -> String {
-//     let mut replaced: String = String::with_capacity(title.len());
+pub fn title_to_slug(title: &str) -> String {
+    let mut replaced: String = String::with_capacity(title.len());
 
-//     for c in title.to_lowercase().chars() {
-//         if let Some(replacement) = TITLE_TO_SLUG_REPLACEMENTS.get(&c) {
-//             replaced.push_str(replacement);
-//         } else {
-//             replaced.push(c);
-//         }
-//     }
+    for c in title.to_lowercase().chars() {
+        if let Some(replacement) = TITLE_TO_SLUG_REPLACEMENTS.get(&c) {
+            replaced.push_str(replacement);
+        } else {
+            replaced.push(c);
+        }
+    }
 
-//     let decomposed: String = replaced.nfd().collect::<String>();
+    let decomposed: String = replaced.nfd().collect::<String>();
 
-//     REMOVE_REGEX.replace_all(&decomposed, "").to_string()
-// }
+    REMOVE_REGEX.replace_all(&decomposed, "").to_string()
+}
 
 // #[cfg(test)]
 // mod title_to_slug_test {

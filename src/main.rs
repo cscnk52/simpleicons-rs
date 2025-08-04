@@ -1,9 +1,5 @@
 use std::{
-    env,
-    error::Error,
-    fs::{self, File, OpenOptions},
-    io::{BufWriter, Cursor, Write},
-    path::{Path, PathBuf},
+    env, error::Error, fmt::format, fs::{self, File, OpenOptions}, io::{BufWriter, Cursor, Write}, path::{Path, PathBuf}
 };
 
 use bytes::Bytes;
@@ -148,8 +144,39 @@ fn generate_file() {
     let mut content: BufWriter<File> = BufWriter::new(file);
 
     write!(content, "{}", LIB_DEFINE).unwrap();
+    for icon in &icons {
+        writeln!(
+            content,
+            r####"  pub const SI{}: Icon = Icon {{
+        title: "{}",
+        slug: "{}",
+        hex: "{}",
+        source: "{}",
+        svg: r###"{}"###,
+    }};"####,
+            icon.slug.to_uppercase(),
+            icon.title,
+            icon.slug,
+            icon.hex,
+            icon.source,
+            icon.svg,
+        )
+        .unwrap();
+    }
 
-    write!(content, "{:#?}", icons).unwrap();
+    writeln!(content, r#"    pub fn slug(slug: &str) -> Option<&'static Icon> {{
+        match slug {{"#).unwrap();
+
+    for icon in &icons {
+        let name = format!("SI{}", icon.slug.to_uppercase());
+        writeln!(content, r#"           "{}" => Some(&Self::{}),"#, icon.slug, name).unwrap();
+    }
+
+    writeln!(content, r#"           _ => None,
+        }}
+    }}
+}}"#).unwrap();
+    info!("file have been written in {}", OUTPUT_FILE);
 }
 
 pub fn read_svg(slug: &str) -> String {
