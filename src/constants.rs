@@ -1,8 +1,3 @@
-use std::{
-    env,
-    path::{Path, PathBuf},
-};
-
 use once_cell::sync::Lazy;
 use phf::phf_map;
 use regex::Regex;

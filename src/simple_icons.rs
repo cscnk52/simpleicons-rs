@@ -1,13 +1,10 @@
 use std::{
     fs::File,
     io::{BufReader, Error},
-    path::{Path, PathBuf},
+    path::PathBuf,
 };
 
 use serde_json::Value;
-use unicode_normalization::UnicodeNormalization;
-
-use crate::constrants::{OUTPUT_DIR, OUTPUT_FILE, REMOVE_REGEX, TITLE_TO_SLUG_REPLACEMENTS};
 
 /// convert simple icons title to slug
 /// see [Contribution](https://github.com/simple-icons/simple-icons/blob/develop/CONTRIBUTING.md#6-name-the-icon) doc for more information

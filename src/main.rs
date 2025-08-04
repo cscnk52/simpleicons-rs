@@ -3,7 +3,7 @@ use std::{
     error::Error,
     fs::{self, File, OpenOptions},
     io::{BufWriter, Cursor, Write},
-    path::{self, Path, PathBuf},
+    path::{Path, PathBuf},
 };
 
 use bytes::Bytes;
@@ -14,7 +14,7 @@ use serde_json::Value;
 use tar::Archive;
 
 use crate::{
-    constrants::{
+    constants::{
         CRATES_IO_BASE_URL, LIB_DEFINE, NPM_BASE_URL, NPM_PACKAGE_PATH, OUTPUT_DIR, OUTPUT_FILE,
         SIMPLE_ICONS_NPM_JSON_FILENAME, SIMPLE_ICONS_NPM_JSON_RELATIVE_DIR,
     },
@@ -22,7 +22,7 @@ use crate::{
     types::{CratesIOInformation, Icon, Icons, JsonIcons, NpmInformation},
 };
 
-mod constrants;
+mod constants;
 mod simple_icons;
 mod types;
 
@@ -134,13 +134,12 @@ fn generate_file() {
     let icons: Icons = json_icons
         .into_iter()
         .map(|icon| {
-            let slug = icon.slug.split("_").next().unwrap_or("").to_string();
-            let svg = read_svg(&slug);
+            let svg = read_svg(&icon.slug);
             Icon {
                 title: icon.title,
                 hex: icon.hex,
                 source: icon.source,
-                slug,
+                slug: icon.slug,
                 svg,
             }
         })
@@ -168,10 +167,15 @@ pub fn read_svg(slug: &str) -> String {
 
 #[tokio::main]
 async fn main() {
+    #[cfg(debug_assertions)]
     env_logger::Builder::from_default_env()
-        // change log level here
         .target(env_logger::Target::Stdout)
         .filter_level(log::LevelFilter::Debug)
+        .init();
+    #[cfg(not(debug_assertions))]
+    env_logger::Builder::from_default_env()
+        .target(env_logger::Target::Stdout)
+        .filter_level(log::LevelFilter::Info)
         .init();
 
     let npm_info: NpmInformation = get_npm_version("simple-icons").await.unwrap();
