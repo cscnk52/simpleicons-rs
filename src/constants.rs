@@ -39,9 +39,4 @@ pub struct Icon {
     pub hex: &'static str,
     pub source: &'static str,
     pub svg: &'static str,
-}
-
-pub struct SimpleIcons;
-
-impl SimpleIcons {
-"###;
+}"###;

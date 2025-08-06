@@ -143,17 +143,11 @@ fn generate_file() {
 
     let mut content: BufWriter<File> = BufWriter::new(file);
 
-    write!(content, "{}", LIB_DEFINE).unwrap();
+    writeln!(content, "{}", LIB_DEFINE).unwrap();
     for icon in &icons {
         writeln!(
             content,
-            r####"  pub const SI{}: Icon = Icon {{
-        title: "{}",
-        slug: "{}",
-        hex: "{}",
-        source: "{}",
-        svg: r###"{}"###,
-    }};"####,
+            "pub const SI{}: Icon = Icon {{\n\ttitle: \"{}\",\n\tslug: \"{}\",\n\thex: \"{}\",\n\tsource: \"{}\",\n\tsvg: r###\"{}\"###,}};",
             icon.slug.to_uppercase(),
             icon.title,
             icon.slug,
@@ -164,18 +158,14 @@ fn generate_file() {
         .unwrap();
     }
 
-    writeln!(content, r#"    pub fn slug(slug: &str) -> Option<&'static Icon> {{
-        match slug {{"#).unwrap();
+    writeln!(content, "pub fn slug(slug: &str) -> Option<&'static Icon> {{\n\tmatch slug {{").unwrap();
 
     for icon in &icons {
         let name = format!("SI{}", icon.slug.to_uppercase());
-        writeln!(content, r#"           "{}" => Some(&Self::{}),"#, icon.slug, name).unwrap();
+        writeln!(content, "\t\"{}\" => Some({}),", icon.slug, name).unwrap();
     }
 
-    writeln!(content, r#"           _ => None,
-        }}
-    }}
-}}"#).unwrap();
+    writeln!(content, "\t\t_ => None,\n\t}}\n}}").unwrap();
     info!("file have been written in {}", OUTPUT_FILE);
 }
 
