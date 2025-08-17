@@ -1,5 +1,6 @@
 // use std::{env, fs::OpenOptions, io::Write};
 
+use clap::Parser;
 use log::info;
 use semver::Version;
 
@@ -15,6 +16,14 @@ mod simple_icons;
 mod types;
 mod versions;
 
+#[derive(Parser, Debug)]
+#[command(version, long_about = None)]
+struct Args {
+    /// Force generate crate, ignore version compare
+    #[arg(long, short = 'f')]
+    force: bool,
+}
+
 #[tokio::main]
 async fn main() {
     #[cfg(debug_assertions)]
@@ -28,6 +37,8 @@ async fn main() {
         .filter_level(log::LevelFilter::Info)
         .init();
 
+    let args = Args::parse();
+
     let npm_info: NpmInformation = get_npm_version("simple-icons").await.unwrap();
     let crate_info: CratesIOInformation = get_crates_io_version("simpleicons-rs").await.unwrap();
 
@@ -40,7 +51,7 @@ async fn main() {
     //     .open(github_actions_env)
     //     .unwrap();
 
-    if crate_version >= npm_version {
+    if !args.force && crate_version >= npm_version {
         info!("crate have update with npm, aboard update");
         // writeln!(f, "skip=true").unwrap();
         return;
