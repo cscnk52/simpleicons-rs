@@ -1,3 +1,5 @@
+// use std::{env, fs::OpenOptions, io::Write};
+
 use log::info;
 use semver::Version;
 
@@ -32,10 +34,19 @@ async fn main() {
     let npm_version: Version = Version::parse(&npm_info.version).unwrap();
     let crate_version: Version = Version::parse(&crate_info.version).unwrap();
 
+    // let github_actions_env = env::var("GITHUB_OUTPUT").unwrap();
+    // let mut f = OpenOptions::new()
+    //     .append(true)
+    //     .open(github_actions_env)
+    //     .unwrap();
+
     if crate_version >= npm_version {
         info!("crate have update with npm, aboard update");
+        // writeln!(f, "skip=true").unwrap();
         return;
     }
+
+    // writeln!(f, "skip=false").unwrap();
 
     download_and_extract_npm_tarball(&npm_info).await;
 
