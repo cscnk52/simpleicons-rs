@@ -1,6 +1,6 @@
-# Simple Icons rs
+# simple-icons-rs
 
-This repo contain code to generate Simple Icons new rust package, still work in progress.
+This repo contain code to generate [simpleicons-rs](https://crates.io/crates/simpleicons-rs).
 
 ## build
 
@@ -10,4 +10,4 @@ cd simple-icons-rs
 cargo run
 ```
 
-After build, the "lib.rs" will generate under `build` folder.
+After build, the crate will generate under `build/crates` folder, run `cargo publish` to publish it.
