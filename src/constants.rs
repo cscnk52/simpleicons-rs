@@ -6,12 +6,17 @@ pub const NPM_BASE_URL: &str = "https://registry.npmjs.org/";
 pub const CRATES_IO_BASE_URL: &str = "https://crates.io/api/v1/crates/";
 
 pub const OUTPUT_DIR: &str = "build";
-pub const OUTPUT_FILE: &str = "lib.rs";
+
 // this relay on npm package struct
 pub const NPM_PACKAGE_PATH: &str = "package";
 // this relay on simple icons package struct
 pub const SIMPLE_ICONS_NPM_JSON_RELATIVE_DIR: &str = "data";
 pub const SIMPLE_ICONS_NPM_JSON_FILENAME: &str = "simple-icons.json";
+
+pub const CRATES_PACKAGE_PATH: &str = "crates";
+pub const CRATES_LIB_RELATIVE_PATH: &str = "src";
+pub const CRATES_METADATA_FILE_NAME: &str = "Cargo.toml";
+pub const CRATES_FILE_NAME: &str = "lib.rs";
 
 pub static TITLE_TO_SLUG_REPLACEMENTS: phf::Map<char, &str> = phf_map! {
     '+' => "plus",

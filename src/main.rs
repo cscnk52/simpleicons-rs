@@ -1,5 +1,9 @@
 use std::{
-    env, error::Error, fs::{self, File, OpenOptions}, io::{BufWriter, Cursor, Write}, path::{Path, PathBuf}
+    env,
+    error::Error,
+    fs::{self, File, OpenOptions},
+    io::{BufWriter, Cursor, Write},
+    path::{Path, PathBuf},
 };
 
 use bytes::Bytes;
@@ -11,7 +15,8 @@ use tar::Archive;
 
 use crate::{
     constants::{
-        CRATES_IO_BASE_URL, LIB_DEFINE, NPM_BASE_URL, NPM_PACKAGE_PATH, OUTPUT_DIR, OUTPUT_FILE,
+        CRATES_FILE_NAME, CRATES_IO_BASE_URL, CRATES_LIB_RELATIVE_PATH, CRATES_METADATA_FILE_NAME,
+        CRATES_PACKAGE_PATH, LIB_DEFINE, NPM_BASE_URL, NPM_PACKAGE_PATH, OUTPUT_DIR,
         SIMPLE_ICONS_NPM_JSON_FILENAME, SIMPLE_ICONS_NPM_JSON_RELATIVE_DIR,
     },
     simple_icons::file_to_json,
@@ -45,7 +50,7 @@ async fn get_npm_version(package: &str) -> Result<NpmInformation, Box<dyn Error>
     Ok(info)
 }
 
-async fn download_and_extract_npm_tarball(npm_package: NpmInformation) {
+async fn download_and_extract_npm_tarball(npm_package: &NpmInformation) {
     let dir: PathBuf = Path::new(env!("CARGO_MANIFEST_DIR")).join(OUTPUT_DIR);
     // if !dir.exists() {
     //     let _ = std::fs::create_dir(&dir);
@@ -97,10 +102,13 @@ async fn get_crates_io_version(package: &str) -> Result<CratesIOInformation, Box
 fn generate_file() {
     let output_dir: PathBuf = Path::new(env!("CARGO_MANIFEST_DIR")).join(OUTPUT_DIR);
     debug!("output_dir: {:#?}", output_dir);
-    let file_path: PathBuf = output_dir.join(OUTPUT_FILE);
+    let file_path: PathBuf = output_dir
+        .join(CRATES_PACKAGE_PATH)
+        .join(CRATES_LIB_RELATIVE_PATH)
+        .join(CRATES_FILE_NAME);
     debug!("file_path: {:#?}", file_path);
 
-    let _ = fs::create_dir_all(&output_dir);
+    fs::create_dir_all(&file_path.parent().unwrap()).unwrap();
 
     let file: File = OpenOptions::new()
         .read(true)
@@ -158,15 +166,19 @@ fn generate_file() {
         .unwrap();
     }
 
-    writeln!(content, "pub fn slug(slug: &str) -> Option<&'static Icon> {{\n\tmatch slug {{").unwrap();
+    writeln!(
+        content,
+        "pub fn slug(slug: &str) -> Option<&'static Icon> {{\n\tmatch slug {{"
+    )
+    .unwrap();
 
     for icon in &icons {
         let name = format!("SI{}", icon.slug.to_uppercase());
-        writeln!(content, "\t\"{}\" => Some({}),", icon.slug, name).unwrap();
+        writeln!(content, "\t\t\"{}\" => Some(&{}),", icon.slug, name).unwrap();
     }
 
     writeln!(content, "\t\t_ => None,\n\t}}\n}}").unwrap();
-    info!("file have been written in {}", OUTPUT_FILE);
+    info!("file have been written in {}", CRATES_FILE_NAME);
 }
 
 pub fn read_svg(slug: &str) -> String {
@@ -180,6 +192,19 @@ pub fn read_svg(slug: &str) -> String {
         warn!("Failed to read SVG with slug: {}", slug);
         String::new()
     })
+}
+
+fn replace_version(npm_info: &NpmInformation) {
+    let crate_metedata_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join(OUTPUT_DIR)
+        .join(CRATES_PACKAGE_PATH)
+        .join(CRATES_METADATA_FILE_NAME);
+
+    let content = fs::read_to_string(&crate_metedata_path).unwrap();
+
+    let updated = content.replace("0.0.1", &npm_info.version);
+
+    fs::write(&crate_metedata_path, updated).unwrap();
 }
 
 #[tokio::main]
@@ -196,7 +221,8 @@ async fn main() {
         .init();
 
     let npm_info: NpmInformation = get_npm_version("simple-icons").await.unwrap();
-    download_and_extract_npm_tarball(npm_info).await;
+    download_and_extract_npm_tarball(&npm_info).await;
 
     generate_file();
+    replace_version(&npm_info);
 }

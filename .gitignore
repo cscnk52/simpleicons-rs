@@ -1,2 +1,6 @@
 /target
-/build
+/build/*
+!/build/crates/
+/build/crates/*
+!/build/crates/Cargo.toml
+!/build/crates/README.md

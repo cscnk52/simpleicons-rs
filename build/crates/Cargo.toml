@@ -1,0 +1,16 @@
+[package]
+name = "simpleicons-rs"
+version = "0.0.1"
+edition = "2024"
+authors = ["Cason Kervis <cscnk52@outlook.com>"]
+description = "A static Rust crate providing SVG data for all Simple Icons. Useful for web, graphics, and static asset generation."
+license = "MIT AND CC0-1.0"
+repository = "https://github.com/cscnk52/simple-icons-rs"
+keywords = ["icons", "svg", "static", "simple-icons"]
+categories = ["graphics", "web-programming"]
+readme = "README.md"
+
+[lib]
+name = "simpleicons_rs"
+path = "src/lib.rs"
+crate-type = ["rlib"]
