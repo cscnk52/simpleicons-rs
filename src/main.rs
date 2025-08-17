@@ -32,10 +32,10 @@ async fn main() {
     let npm_version: Version = Version::parse(&npm_info.version).unwrap();
     let crate_version: Version = Version::parse(&crate_info.version).unwrap();
 
-    // if crate_version >= npm_version {
-    //     info!("crate have update with npm, aboard update");
-    //     return;
-    // }
+    if crate_version >= npm_version {
+        info!("crate have update with npm, aboard update");
+        return;
+    }
 
     download_and_extract_npm_tarball(&npm_info).await;
 
