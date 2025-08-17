@@ -9,6 +9,7 @@ repository = "https://github.com/cscnk52/simple-icons-rs"
 keywords = ["icons", "svg", "static", "simple-icons"]
 categories = ["graphics", "web-programming"]
 readme = "README.md"
+include = ["Cargo.toml", "README.md", "src/lib.rs"]
 
 [lib]
 name = "simpleicons_rs"
