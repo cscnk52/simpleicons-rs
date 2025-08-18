@@ -39,7 +39,7 @@ pub async fn get_crates_io_version(package: &str) -> Result<CratesIOInformation,
     // crates.io require add "User-Agent" header to track usage
     let response: Value = client
         .get(package_url)
-        .header("User-Agent", "github.com/cscnk52/simple-icons-rs")
+        .header("User-Agent", "github.com/cscnk52/simpleicons-rs-builder")
         .send()
         .await?
         .json()

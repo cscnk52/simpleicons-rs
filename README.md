@@ -1,12 +1,12 @@
-# simple-icons-rs
+# simpleicons-rs-builder
 
 This repo contain code to generate [simpleicons-rs](https://crates.io/crates/simpleicons-rs).
 
 ## build
 
 ```bash
-git clone https://github.com/cscnk52/simple-icons-rs.git
-cd simple-icons-rs
+git clone https://github.com/cscnk52/simpleicons-rs-builder.git
+cd simpleicons-rs-builder
 cargo run
 ```
 

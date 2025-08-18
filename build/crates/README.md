@@ -34,5 +34,5 @@ Contributions are welcome! Please open issues or pull requests.
 
 ## License
 
-- [`simpleicons-rs`](https://github.com/cscnk52/simple-icons-rs) build script and crate under [MIT](https://github.com/cscnk52/simple-icons-rs?tab=MIT-1-ov-file) LICENSE.
+- [`simpleicons-rs`](https://github.com/cscnk52/simpleicons-rs-builder) build script and crate under [MIT](https://github.com/cscnk52/simpleicons-rs-builder?tab=MIT-1-ov-file) LICENSE.
 - [`Simple Icons`](https://github.com/simple-icons/simple-icons) use [CC0-1.0](https://github.com/simple-icons/simple-icons?tab=CC0-1.0-1-ov-file) LICENSE and addition [Legal Disclaimer](https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md).
