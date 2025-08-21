@@ -4,6 +4,8 @@ A [Simple Icons](https://github.com/simple-icons/simple-icons) library for Rust.
 
 ## Usage
 
+### Plain SVG
+
 If want dynamicly import icon:
 
 ```rust
@@ -27,6 +29,31 @@ fn main() {
 ```
 
 you can freely choose, former have more flexibility, latter is more lightweight.
+
+### Colored SVG
+
+```rust
+use simple_icons::slug_colored;
+
+fn main() {
+    let slug = "rust";
+
+    // slug_colored(slug, color)
+
+    // return Icon with Simple Icons Color
+    let colored_svg_default = slug_colored(slug, "default");
+
+    // or using CSS named Color
+    let colored_svg_named = slug_colored(slug, "black");
+
+    // or using hex Color
+    let colored_svg_hex = slug_colored(slug, "#181717");
+
+    // or any other color format support by csscolorparser
+    // see https://crates.io/crates/csscolorparser
+}
+```
+
 
 ## Contributing
 

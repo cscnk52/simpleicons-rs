@@ -11,7 +11,7 @@ use tar::Archive;
 
 use crate::{
     constants::{
-        CRATES_FILE_NAME, CRATES_LIB_RELATIVE_PATH, CRATES_METADATA_FILE_NAME, CRATES_PACKAGE_PATH,
+        CRATES_ICON_FILE_NAME, CRATES_LIB_RELATIVE_PATH, CRATES_METADATA_FILE_NAME, CRATES_PACKAGE_PATH,
         LIB_DEFINE, NPM_PACKAGE_PATH, OUTPUT_DIR, SIMPLE_ICONS_NPM_JSON_FILENAME,
         SIMPLE_ICONS_NPM_JSON_RELATIVE_DIR,
     },
@@ -48,7 +48,7 @@ pub fn generate_file() {
     let file_path: PathBuf = output_dir
         .join(CRATES_PACKAGE_PATH)
         .join(CRATES_LIB_RELATIVE_PATH)
-        .join(CRATES_FILE_NAME);
+        .join(CRATES_ICON_FILE_NAME);
     debug!("file_path: {:#?}", file_path);
 
     fs::create_dir_all(file_path.parent().unwrap()).unwrap();
@@ -121,7 +121,7 @@ pub fn generate_file() {
     }
 
     writeln!(content, "\t\t_ => None,\n\t}}\n}}").unwrap();
-    info!("file have been written in {}", CRATES_FILE_NAME);
+    info!("file have been written in {}", CRATES_ICON_FILE_NAME);
 }
 
 pub fn read_svg(slug: &str) -> String {

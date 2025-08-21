@@ -16,7 +16,7 @@ pub const SIMPLE_ICONS_NPM_JSON_FILENAME: &str = "simple-icons.json";
 pub const CRATES_PACKAGE_PATH: &str = "crates";
 pub const CRATES_LIB_RELATIVE_PATH: &str = "src";
 pub const CRATES_METADATA_FILE_NAME: &str = "Cargo.toml";
-pub const CRATES_FILE_NAME: &str = "lib.rs";
+pub const CRATES_ICON_FILE_NAME: &str = "icons.rs";
 
 pub static TITLE_TO_SLUG_REPLACEMENTS: phf::Map<char, &str> = phf_map! {
     '+' => "plus",
