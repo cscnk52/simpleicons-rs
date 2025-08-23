@@ -1,3 +1,9 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./assets/img/simpleicons-rs-banner-dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="./assets/img/simpleicons-rs-banner-light.png" />
+  <img src="./assets/img/simpleicons-rs-banner-light.png" />
+</picture>
+
 # simpleicons-rs-builder
 
 This repo contain code to generate [simpleicons-rs](https://crates.io/crates/simpleicons-rs).
