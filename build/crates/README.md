@@ -42,6 +42,18 @@ cargo add simpleicons-rs
 > [!IMPORTANT]
 > Please read the [legal disclaimer](https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md) before using any icon.
 
+function will return Icon as follow:
+
+```rust
+pub struct Icon {
+    pub title: &'static str,
+    pub slug: &'static str,
+    pub hex: &'static str,
+    pub source: &'static str,
+    pub svg: &'static str,
+}
+```
+
 ### Plain SVG
 
 Use runtime lookup for flexibility, or a compile‑time constant for zero lookup:
