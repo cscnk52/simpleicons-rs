@@ -8,6 +8,7 @@ use bytes::Bytes;
 use flate2::bufread::GzDecoder;
 use log::{debug, info, warn};
 use tar::Archive;
+use toml_edit::{value, Document, DocumentMut};
 
 use crate::{
     constants::{
@@ -144,8 +145,8 @@ pub fn replace_version(npm_info: &NpmInformation) {
         .join(CRATES_METADATA_FILE_NAME);
 
     let content = fs::read_to_string(&crate_metedata_path).unwrap();
+    let mut updated = content.parse::<DocumentMut>().expect("Invalid doc");
+    updated["package"]["version"] = value(&npm_info.version);
 
-    let updated = content.replace("0.0.1", &npm_info.version);
-
-    fs::write(&crate_metedata_path, updated).unwrap();
+    fs::write(&crate_metedata_path, updated.to_string()).unwrap();
 }
