@@ -19,7 +19,7 @@ jobs:
         id: version-check
 
   publish:
-    needs: check
+    needs: [check]
     if: needs.check.outputs.skip != 'true'
     runs-on: ubuntu-latest
     defaults:
