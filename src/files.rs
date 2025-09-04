@@ -8,7 +8,7 @@ use bytes::Bytes;
 use flate2::bufread::GzDecoder;
 use log::{debug, info, warn};
 use tar::Archive;
-use toml_edit::{value, Document, DocumentMut};
+use toml_edit::{value, DocumentMut};
 
 use crate::{
     constants::{

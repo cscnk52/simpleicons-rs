@@ -1,6 +1,6 @@
-use once_cell::sync::Lazy;
-use phf::phf_map;
-use regex::Regex;
+// use once_cell::sync::Lazy;
+// use phf::phf_map;
+// use regex::Regex;
 
 pub const NPM_BASE_URL: &str = "https://registry.npmjs.org/";
 pub const CRATES_IO_BASE_URL: &str = "https://crates.io/api/v1/crates/";
@@ -18,24 +18,24 @@ pub const CRATES_LIB_RELATIVE_PATH: &str = "src";
 pub const CRATES_METADATA_FILE_NAME: &str = "Cargo.toml";
 pub const CRATES_ICON_FILE_NAME: &str = "icons.rs";
 
-pub static TITLE_TO_SLUG_REPLACEMENTS: phf::Map<char, &str> = phf_map! {
-    '+' => "plus",
-    '.' => "dot",
-    '&' => "and",
-    // undocumented
-    '#' => "sharp",
-    'đ' => "d",
-    'ħ' => "h",
-    'ı' => "i",
-    'ĸ' => "k",
-    '\u{0140}' => "l", // ŀ
-    'ł' => "l",
-    'ß' => "ss",
-    'ŧ' => "t",
-    'ø' => "o",
-};
+// pub static TITLE_TO_SLUG_REPLACEMENTS: phf::Map<char, &str> = phf_map! {
+//     '+' => "plus",
+//     '.' => "dot",
+//     '&' => "and",
+//     // undocumented
+//     '#' => "sharp",
+//     'đ' => "d",
+//     'ħ' => "h",
+//     'ı' => "i",
+//     'ĸ' => "k",
+//     '\u{0140}' => "l", // ŀ
+//     'ł' => "l",
+//     'ß' => "ss",
+//     'ŧ' => "t",
+//     'ø' => "o",
+// };
 
-pub static REMOVE_REGEX: Lazy<Regex> = Lazy::new(|| Regex::new(r"[^a-z0-9]").unwrap());
+// pub static REMOVE_REGEX: Lazy<Regex> = Lazy::new(|| Regex::new(r"[^a-z0-9]").unwrap());
 
 pub const LIB_DEFINE: &str = r###"#[derive(Debug)]
 pub struct Icon {
