@@ -1,3 +1,5 @@
+name: 🦀 Publish Crate
+
 on:
   schedule:
     - cron: "0 0 * * 1"
