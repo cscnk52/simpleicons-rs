@@ -53,11 +53,11 @@ async fn main() {
 
     if !args.force && crate_version >= npm_version {
         info!("crate have update with npm, aboard update");
-        writeln!(f, "skip=true").unwrap();
+        writeln!(f, "updated=false").unwrap();
         return;
     }
 
-    writeln!(f, "skip=false").unwrap();
+    writeln!(f, "updated=true").unwrap();
 
     download_and_extract_npm_tarball(&npm_info).await;
 

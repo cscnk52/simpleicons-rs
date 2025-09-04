@@ -9,7 +9,7 @@ jobs:
   check:
     runs-on: ubuntu-latest
     outputs:
-      skip: ${{ steps.version-check.outputs.skip }}
+      updated: ${{ steps.version-check.outputs.updated }}
     steps:
       - uses: actions/checkout@v5
 
@@ -20,7 +20,7 @@ jobs:
 
   publish:
     needs: [check]
-    if: needs.check.outputs.skip != 'true'
+    if: needs.check.outputs.updated == 'true'
     runs-on: ubuntu-latest
     defaults:
       run:
