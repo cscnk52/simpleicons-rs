@@ -6,8 +6,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish:
+  check:
     runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.version-check.outputs.skip }}
     steps:
       - uses: actions/checkout@v5
 
@@ -16,16 +18,23 @@ jobs:
       - run: cargo run
         id: version-check
 
+  publish:
+    needs: check
+    if: needs.check.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: build/crates
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+
       - run: cargo test
-        working-directory: ./build/crates
-        if: steps.version-check.outputs.skip != 'true'
 
       - uses: rust-lang/crates-io-auth-action@v1
         id: auth
-        if: steps.version-check.outputs.skip != 'true'
 
       - run: cargo publish --allow-dirty
-        working-directory: ./build/crates
-        if: steps.version-check.outputs.skip != 'true'
         env:
           CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
