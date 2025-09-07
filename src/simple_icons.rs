@@ -9,8 +9,8 @@ use serde_json::Value;
 
 // use crate::constants::{REMOVE_REGEX, TITLE_TO_SLUG_REPLACEMENTS};
 
-/// convert simple icons title to slug
-/// see [Contribution](https://github.com/simple-icons/simple-icons/blob/develop/CONTRIBUTING.md#6-name-the-icon) doc for more information
+// /// convert simple icons title to slug
+// /// see [Contribution](https://github.com/simple-icons/simple-icons/blob/develop/CONTRIBUTING.md#6-name-the-icon) doc for more information
 // pub fn title_to_slug(title: &str) -> String {
 //     let mut replaced: String = String::with_capacity(title.len());
 
