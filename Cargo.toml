@@ -18,5 +18,5 @@ serde = { version = "1.0.226", features = ["derive"] }
 serde_json = { version = "1.0.145", features = ["std"] }
 tar = "0.4.44"
 tokio = { version = "1.47.1", features = ["macros", "rt-multi-thread"] }
-toml_edit = "0.23.5"
+toml_edit = "0.23.6"
 unicode-normalization = "0.1.24"
