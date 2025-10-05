@@ -31,7 +31,7 @@ jobs:
     permissions:
       pull-requests: write
       contents: write
-    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && github.event_name == 'pull_request'}}
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && github.event_name == 'pull_request' }}
     steps:
       - id: metadata
         uses: dependabot/fetch-metadata@08eff52bf64351f401fb50d4972fa95b9f2c2d1b # v2.4.0
@@ -42,5 +42,5 @@ jobs:
           gh pr review --approve "$PR_URL"
           gh pr merge --squash --auto "$PR_URL"
         env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
