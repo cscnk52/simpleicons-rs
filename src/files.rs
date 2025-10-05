@@ -8,13 +8,13 @@ use bytes::Bytes;
 use flate2::bufread::GzDecoder;
 use log::{debug, info, warn};
 use tar::Archive;
-use toml_edit::{value, DocumentMut};
+use toml_edit::{DocumentMut, value};
 
 use crate::{
     constants::{
-        CRATES_ICON_FILE_NAME, CRATES_LIB_RELATIVE_PATH, CRATES_METADATA_FILE_NAME, CRATES_PACKAGE_PATH,
-        LIB_DEFINE, NPM_PACKAGE_PATH, OUTPUT_DIR, SIMPLE_ICONS_NPM_JSON_FILENAME,
-        SIMPLE_ICONS_NPM_JSON_RELATIVE_DIR,
+        CRATES_ICON_FILE_NAME, CRATES_LIB_RELATIVE_PATH, CRATES_METADATA_FILE_NAME,
+        CRATES_PACKAGE_PATH, LIB_DEFINE, NPM_PACKAGE_PATH, OUTPUT_DIR,
+        SIMPLE_ICONS_NPM_JSON_FILENAME, SIMPLE_ICONS_NPM_JSON_RELATIVE_DIR,
     },
     simple_icons::file_to_json,
     types::{Icon, Icons, JsonIcons, NpmInformation},
