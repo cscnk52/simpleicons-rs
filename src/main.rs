@@ -58,6 +58,7 @@ async fn main() {
     }
 
     writeln!(f, "updated=true").unwrap();
+    writeln!(f, "version={}", npm_info.version).unwrap();
 
     download_and_extract_npm_tarball(&npm_info).await;
 

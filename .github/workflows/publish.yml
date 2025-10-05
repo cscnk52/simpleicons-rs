@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       updated: ${{ steps.version-check.outputs.updated }}
+      version: ${{ steps.version-check.outputs.version }}
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
@@ -29,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     permissions:
-      contents: read
+      contents: write
       id-token: write
     defaults:
       run:
@@ -37,7 +38,8 @@ jobs:
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
-          persist-credentials: false
+          persist-credentials: true
+          fetch-depth: 0
 
       - uses: actions-rust-lang/setup-rust-toolchain@02be93da58aa71fb456aa9c43b301149248829d8 # v1.15.1
 
@@ -45,6 +47,21 @@ jobs:
         working-directory: ${{ github.workspace }}
 
       - run: cargo test
+
+      - uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6.0.1
+        id: commit
+        with:
+          branch: main
+          file_pattern: build/crates/Cargo.toml
+          commit_message: "chore(release): bump simpleicons-rs to ${{needs.check.outputs.version}}"
+
+      - uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1.20.0
+        with:
+          commit: ${{ steps.commit.outputs.commit_hash}}
+          tag: v${{ needs.check.outputs.version }}
+          generateReleaseNotes: true
+          # TODO: if work as expect, remove draft, change to immutable release
+          draft: true
 
       - uses: rust-lang/crates-io-auth-action@e919bc7605cde86df457cf5b93c5e103838bd879 # v1.0.1
         id: auth
