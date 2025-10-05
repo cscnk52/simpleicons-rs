@@ -59,6 +59,7 @@ jobs:
         with:
           commit: ${{ steps.commit.outputs.commit_hash}}
           tag: v${{ needs.check.outputs.version }}
+          name: simpleicons-rs@v${{ needs.check.outputs.version }}
           generateReleaseNotes: true
           # TODO: if work as expect, remove draft, change to immutable release
           draft: true
