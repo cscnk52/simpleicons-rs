@@ -54,6 +54,7 @@ jobs:
           branch: main
           file_pattern: build/crates/Cargo.toml
           commit_message: "chore(release): bump simpleicons-rs to ${{ needs.check.outputs.version }}"
+          commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
 
       - uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1.20.0
         with:
