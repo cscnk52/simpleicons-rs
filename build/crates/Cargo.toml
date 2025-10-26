@@ -1,6 +1,6 @@
 [package]
 name = "simpleicons-rs"
-version = "15.17.0"
+version = "15.18.0"
 edition = "2024"
 description = "A static Rust crate providing SVG data for all Simple Icons. Useful for web, graphics, and static asset generation."
 readme = "README.md"
