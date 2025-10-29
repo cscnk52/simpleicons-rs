@@ -61,7 +61,7 @@ jobs:
           commit: ${{ steps.commit.outputs.commit_hash}}
           tag: v${{ needs.check.outputs.version }}
           name: simpleicons-rs@v${{ needs.check.outputs.version }}
-          generateReleaseNotes: true
+          body: Update to simple-icons ${{ needs.check.outputs.version }}
           immutableCreate: true
 
       - uses: rust-lang/crates-io-auth-action@041cce5b4b821e6b0ebc9c9c38b58cac4e34dcc2 # v1.0.2
