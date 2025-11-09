@@ -16,4 +16,4 @@ name = "simpleicons_rs"
 path = "src/lib.rs"
 
 [dependencies]
-csscolorparser = "0.7.2"
+csscolorparser = "0.8.0"
