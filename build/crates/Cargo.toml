@@ -2,7 +2,7 @@
 name = "simpleicons-rs"
 version = "15.21.0"
 edition = "2024"
-description = "A static Rust crate providing SVG data for all Simple Icons. Useful for web, graphics, and static asset generation."
+description = "SVG icons for popular brands"
 readme = "README.md"
 repository = "https://github.com/cscnk52/simpleicons-rs"
 license = "MIT AND CC0-1.0"
