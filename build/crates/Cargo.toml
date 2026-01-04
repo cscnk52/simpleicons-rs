@@ -1,6 +1,6 @@
 [package]
 name = "simpleicons-rs"
-version = "16.3.0"
+version = "16.4.0"
 edition = "2024"
 description = "SVG icons for popular brands"
 readme = "README.md"
