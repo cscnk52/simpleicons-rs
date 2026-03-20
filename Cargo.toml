@@ -13,6 +13,6 @@ reqwest = { version = "0.12.28", features = ["json"] }
 semver = "1.0.27"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = { version = "1.0.149", features = ["std"] }
-tar = "0.4.44"
+tar = "0.4.45"
 tokio = { version = "1.49.0", features = ["macros", "rt-multi-thread"] }
 toml_edit = "0.23.10"
