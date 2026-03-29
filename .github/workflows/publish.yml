@@ -2,6 +2,7 @@ name: 🦀 Publish Crate
 
 on:
   schedule:
+    - cron: "0 * * * 0"
     - cron: "0 0 * * 1,4"
   workflow_dispatch:
 
