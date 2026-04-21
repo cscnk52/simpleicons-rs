@@ -57,12 +57,15 @@ jobs:
           commit_message: "chore(release): bump simpleicons-rs to ${{ needs.check.outputs.version }}"
           commit_author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
 
+      - run: cargo package --allow-dirty
+
       - uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         with:
           commit: ${{ steps.commit.outputs.commit_hash}}
           tag: v${{ needs.check.outputs.version }}
           name: simpleicons-rs@v${{ needs.check.outputs.version }}
           body: Update to [simple-icons ${{ needs.check.outputs.version }}](https://github.com/simple-icons/simple-icons/releases/tag/${{ needs.check.outputs.version }})
+          artifacts: build/crates/target/package/simpleicons-rs-${{ needs.check.outputs.version }}.crate
           immutableCreate: true
 
       - uses: rust-lang/crates-io-auth-action@bbd81622f20ce9e2dd9622e3218b975523e45bbe # v1.0.4
