@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/assets/img/simpleicons-rs-banner-dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/assets/img/simpleicons-rs-banner-light.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/docs/img/simpleicons-rs-banner.dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/docs/img/simpleicons-rs-banner.light.png" />
   <img alt="simpleicons-rs banner" src="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/assets/img/simpleicons-rs-banner-light.png" />
 </picture>
 
