@@ -71,7 +71,6 @@ enum BuildError {
 
 #[derive(Debug)]
 struct NpmInformation {
-    package: String,
     version: String,
     tarball: String,
 }
@@ -188,25 +187,7 @@ fn run() -> BuildResult<()> {
     }
 
     if !version_outdated && !icons_missing && !out_icons_missing {
-        cargo_warning(&format!(
-            "crate version {} is already up to date with npm version {}",
-            crate_info.version, npm_info.version
-        ));
         return Ok(());
-    }
-
-    if icons_missing {
-        cargo_warning(&format!(
-            "{} is missing, regenerating it from simple-icons {}",
-            icons_path.display(),
-            npm_info.version
-        ));
-    }
-    if out_icons_missing {
-        cargo_warning(&format!(
-            "{} is missing, regenerating generated build output",
-            out_icons_path.display()
-        ));
     }
 
     download_and_extract_npm_tarball(&manifest_dir, &npm_info)?;
@@ -214,15 +195,6 @@ fn run() -> BuildResult<()> {
 
     if version_outdated {
         replace_version(&manifest_dir, &npm_info)?;
-        cargo_warning(&format!(
-            "updated icons to simple-icons {}",
-            npm_info.version
-        ));
-    } else {
-        cargo_warning(&format!(
-            "regenerated icons from simple-icons {}",
-            npm_info.version
-        ));
     }
 
     Ok(())
@@ -251,10 +223,7 @@ fn get_github_output() -> Option<File> {
                 None
             }
         },
-        Err(_) => {
-            cargo_warning("GITHUB_OUTPUT not set, skip CI output");
-            None
-        }
+        Err(_) => None,
     }
 }
 
@@ -285,11 +254,7 @@ fn get_npm_version(package: &str) -> BuildResult<NpmInformation> {
         .ok_or_else(|| BuildError::MissingNpmTarball(version.clone()))?
         .to_string();
 
-    Ok(NpmInformation {
-        package: package.to_string(),
-        version,
-        tarball,
-    })
+    Ok(NpmInformation { version, tarball })
 }
 
 fn get_crates_io_version(package: &str) -> BuildResult<CratesIOInformation> {
@@ -329,13 +294,6 @@ fn download_and_extract_npm_tarball(
     let tar = GzDecoder::new(cursor);
     let mut archive = Archive::new(tar);
     archive.unpack(&output_dir)?;
-
-    cargo_warning(&format!(
-        "downloaded {}@{} into {}",
-        npm_package.package,
-        npm_package.version,
-        output_dir.display()
-    ));
 
     Ok(())
 }
