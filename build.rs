@@ -253,12 +253,11 @@ fn get_github_output() -> Option<File> {
 }
 
 fn write_github_output(output: &mut Option<File>, key: &str, value: &str) {
-    if let Some(file) = output.as_mut() {
-        if let Err(err) = writeln!(file, "{key}={value}") {
+    if let Some(file) = output.as_mut()
+        && let Err(err) = writeln!(file, "{key}={value}") {
             cargo_warning(&format!("failed to write GITHUB_OUTPUT {key}: {err}"));
             *output = None;
         }
-    }
 }
 
 fn get_npm_version(package: &str) -> BuildResult<NpmInformation> {
