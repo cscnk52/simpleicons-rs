@@ -5,14 +5,20 @@ fn assert_github_icon(icon: &Icon) {
     assert_eq!(icon.slug, "github");
     assert_eq!(icon.hex, "181717");
     assert_eq!(icon.source, "https://github.com/logos");
-    assert!(icon.svg.starts_with("<svg role=\"img\" viewBox=\"0 0 24 24\""));
+    assert!(
+        icon.svg
+            .starts_with("<svg role=\"img\" viewBox=\"0 0 24 24\"")
+    );
 }
 
 fn assert_dotenv_icon(icon: &Icon) {
     assert_eq!(icon.title, ".ENV");
     assert_eq!(icon.slug, "dotenv");
     assert_eq!(icon.hex, "ECD53F");
-    assert!(icon.svg.starts_with("<svg role=\"img\" viewBox=\"0 0 24 24\""));
+    assert!(
+        icon.svg
+            .starts_with("<svg role=\"img\" viewBox=\"0 0 24 24\"")
+    );
 }
 
 #[test]
@@ -75,7 +81,11 @@ fn github_slug_lookup_is_case_sensitive() {
 fn github_original_svg_is_not_modified_by_coloring() {
     let _ = slug_colored("github", "black").unwrap();
 
-    assert!(SIGITHUB.svg.starts_with("<svg role=\"img\" viewBox=\"0 0 24 24\""));
+    assert!(
+        SIGITHUB
+            .svg
+            .starts_with("<svg role=\"img\" viewBox=\"0 0 24 24\"")
+    );
     assert!(!SIGITHUB.svg.starts_with("<svg fill="));
 }
 

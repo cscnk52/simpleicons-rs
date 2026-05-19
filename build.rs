@@ -14,7 +14,7 @@ use serde::Deserialize;
 use serde_json::Value;
 use tar::Archive;
 use thiserror::Error;
-use toml_edit::{value, DocumentMut};
+use toml_edit::{DocumentMut, value};
 
 const PACKAGE_NAME: &str = "simpleicons-rs";
 const SIMPLE_ICONS_PACKAGE: &str = "simple-icons";
@@ -214,9 +214,15 @@ fn run() -> BuildResult<()> {
 
     if version_outdated {
         replace_version(&manifest_dir, &npm_info)?;
-        cargo_warning(&format!("updated icons to simple-icons {}", npm_info.version));
+        cargo_warning(&format!(
+            "updated icons to simple-icons {}",
+            npm_info.version
+        ));
     } else {
-        cargo_warning(&format!("regenerated icons from simple-icons {}", npm_info.version));
+        cargo_warning(&format!(
+            "regenerated icons from simple-icons {}",
+            npm_info.version
+        ));
     }
 
     Ok(())
@@ -254,16 +260,21 @@ fn get_github_output() -> Option<File> {
 
 fn write_github_output(output: &mut Option<File>, key: &str, value: &str) {
     if let Some(file) = output.as_mut()
-        && let Err(err) = writeln!(file, "{key}={value}") {
-            cargo_warning(&format!("failed to write GITHUB_OUTPUT {key}: {err}"));
-            *output = None;
-        }
+        && let Err(err) = writeln!(file, "{key}={value}")
+    {
+        cargo_warning(&format!("failed to write GITHUB_OUTPUT {key}: {err}"));
+        *output = None;
+    }
 }
 
 fn get_npm_version(package: &str) -> BuildResult<NpmInformation> {
     let package_url = format!("{NPM_BASE_URL}{package}");
     let client = Client::new();
-    let response: Value = client.get(&package_url).send()?.error_for_status()?.json()?;
+    let response: Value = client
+        .get(&package_url)
+        .send()?
+        .error_for_status()?
+        .json()?;
 
     let version = response["dist-tags"]["latest"]
         .as_str()
@@ -311,7 +322,9 @@ fn download_and_extract_npm_tarball(
         fs::remove_dir_all(&package_dir)?;
     }
 
-    let response_bytes = blocking::get(&npm_package.tarball)?.error_for_status()?.bytes()?;
+    let response_bytes = blocking::get(&npm_package.tarball)?
+        .error_for_status()?
+        .bytes()?;
     let cursor = Cursor::new(response_bytes);
     let tar = GzDecoder::new(cursor);
     let mut archive = Archive::new(tar);
@@ -331,8 +344,14 @@ fn generate_file(manifest_dir: &Path) -> BuildResult<()> {
     let src_icons_path = icons_file_path(manifest_dir);
     let out_icons_path = out_dir_icons_file_path()?;
 
-    ensure_parent_directory(&src_icons_path, "generated file path has no parent directory")?;
-    ensure_parent_directory(&out_icons_path, "OUT_DIR generated file path has no parent directory")?;
+    ensure_parent_directory(
+        &src_icons_path,
+        "generated file path has no parent directory",
+    )?;
+    ensure_parent_directory(
+        &out_icons_path,
+        "OUT_DIR generated file path has no parent directory",
+    )?;
 
     let icons = load_icons(manifest_dir)?;
     let content = render_icons_file(&icons)?;
@@ -398,7 +417,10 @@ fn render_icon_constant(content: &mut String, icon: &IconData) -> BuildResult<()
 }
 
 fn render_slug_lookup(content: &mut String, icons: &[IconData]) -> BuildResult<()> {
-    writeln!(content, "pub fn slug(slug: &str) -> Option<&'static Icon> {{")?;
+    writeln!(
+        content,
+        "pub fn slug(slug: &str) -> Option<&'static Icon> {{"
+    )?;
     writeln!(content, "\tmatch slug {{")?;
 
     for icon in icons {
