@@ -18,7 +18,7 @@ pub fn slug_colored(slug: &str, color: &str) -> Option<String> {
 
 #[cfg(test)]
 mod tests {
-    use super::{slug, slug_colored, Icon, SIDOTENV, SIGITHUB};
+    use super::{Icon, SIDOTENV, SIGITHUB, slug, slug_colored};
 
     fn assert_github_icon(icon: &Icon) {
         assert_eq!(icon.title, "GitHub");
