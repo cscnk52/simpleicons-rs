@@ -1,8 +1,8 @@
-mod icons {
-    include!(concat!(env!("OUT_DIR"), "/icons.rs"));
-}
+mod icons;
 
 pub use icons::*;
+
+pub type Icons = Vec<Icon>;
 
 pub fn slug_colored(slug: &str, color: &str) -> Option<String> {
     let icon = icons::slug(slug)?;

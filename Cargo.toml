@@ -8,7 +8,7 @@ repository = "https://github.com/cscnk52/simpleicons-rs"
 license = "MIT AND CC0-1.0"
 keywords = ["icons", "simple-icons", "static", "svg"]
 categories = ["graphics", "web-programming"]
-include = ["Cargo.toml", "README.md", "build.rs", "src/icons.rs", "src/lib.rs"]
+include = ["README.md", "/src"]
 
 [lib]
 crate-type = ["rlib"]
@@ -25,5 +25,4 @@ semver = "1.0.28"
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = { version = "1.0.149", features = ["std"] }
 tar = "0.4.46"
-thiserror = "1.0.69"
 toml_edit = "0.25.11"
