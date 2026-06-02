@@ -2,23 +2,37 @@ mod icons;
 
 pub use icons::*;
 
-pub type Icons = Vec<Icon>;
-
-pub fn slug_colored(slug: &str, color: &str) -> Option<String> {
-    let icon = icons::slug(slug)?;
-    let fill = match color {
-        "default" => format!("#{}", icon.hex),
-        color => csscolorparser::parse(color)
-            .map(|c| c.to_css_hex())
-            .unwrap_or_else(|_| "#000000".to_string()),
-    };
-
-    Some(icon.svg.replace("<svg", &format!("<svg fill=\"{fill}\"")))
+#[derive(Debug, Clone, Copy)]
+pub struct Icon {
+    pub title: &'static str,
+    pub slug: &'static str,
+    pub hex: &'static str,
+    pub source: &'static str,
+    pub svg: &'static str,
 }
+
+pub struct Aliases {
+    pub aka: Option<Vec<&'static str>>,
+    pub dup: Vec<DuplicatedAlias>,
+}
+
+pub struct DuplicatedAlias {
+    pub title: &'static str,
+    pub hex: Option<&'static str>,
+    pub loc: &'static [(&'static str, &'static str)],
+    pub old: Option<Vec<&'static str>>,
+}
+
+pub struct License {
+    pub types: &'static str,
+    pub url: &'static str,
+}
+
+pub type Icons = Vec<Icon>;
 
 #[cfg(test)]
 mod tests {
-    use super::{Icon, SIDOTENV, SIGITHUB, slug, slug_colored};
+    use super::{Icon, SIDOTENV, SIGITHUB, slug};
 
     fn assert_github_icon(icon: &Icon) {
         assert_eq!(icon.title, "GitHub");
