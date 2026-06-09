@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/assets/img/simpleicons-rs-banner-dark.png" />
-  <source media="(prefers-color-scheme: light)" srcset="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/assets/img/simpleicons-rs-banner-light.png" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/docs/img/simpleicons-rs-banner.dark.png" />
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/docs/img/simpleicons-rs-banner.light.png" />
   <img alt="simpleicons-rs banner" src="https://github.com/cscnk52/simpleicons-rs/raw/refs/heads/main/assets/img/simpleicons-rs-banner-light.png" />
 </picture>
 
@@ -42,7 +42,7 @@ cargo add simpleicons-rs
 > [!IMPORTANT]
 > Please read the [legal disclaimer](https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md) before using any icon.
 
-function will return Icon as follow:
+Function will return Icon as follows:
 
 ```rust
 pub struct Icon {
@@ -80,27 +80,8 @@ match simpleicons_rs::slug("not-a-slug") {
 
 ### Colored SVG
 
-```rust
-use simpleicons_rs::slug_colored;
-
-fn main() {
-    let slug = "rust";
-
-    // Official brand color
-    let brand = slug_colored(slug, "default").unwrap();
-
-    // CSS named color
-    let named = slug_colored(slug, "black").unwrap();
-
-    // Hex
-    let hexed = slug_colored(slug, "#181717").unwrap();
-
-    // Any csscolorparser format: #abc, rgb(), rgba(), hsl(), hsla(), etc.
-    let hsl = slug_colored(slug, "hsl(10 10% 10%)").unwrap();
-
-    println!("{}", brand.svg);
-}
-```
+> [!Warning] Deprecated
+> For keep this library lightwight, i have remove `slug_colored` function to make it more 
 
 ## Build
 

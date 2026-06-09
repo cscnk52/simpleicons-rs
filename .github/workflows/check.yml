@@ -19,6 +19,12 @@ jobs:
 
       - uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
 
-      - run: cargo build --verbose
+      - run: cargo fmt --check
 
-      - run: cargo test --verbose
+      - run: cargo clippy --all-targets
+
+      - run: cargo build
+
+      - run: cargo test
+
+      - run: cargo publish --dry-run --allow-dirty
