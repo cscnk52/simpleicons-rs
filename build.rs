@@ -81,7 +81,8 @@ fn download_and_extract_tarball() -> Result<(), reqwest::Error> {
     Ok(())
 }
 
-fn main() {
-    check_npm_version();
-    download_and_extract_tarball();
+fn main() -> Result<(), reqwest::Error> {
+    check_npm_version()?;
+    download_and_extract_tarball()?;
+    Ok(())
 }
