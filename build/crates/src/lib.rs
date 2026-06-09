@@ -1,6 +1,7 @@
 mod icons;
 pub use icons::*;
 
+#[deprecated(since = "16.23.0",note = "Will be removed in v17.0.0, use `csscolorparser` crate instead")]
 pub fn slug_colored(slug: &str, color: &str) -> Option<Icon> {
     if let Some(icon) = icons::slug(slug) {
         let hex_color = if color == "default" {
