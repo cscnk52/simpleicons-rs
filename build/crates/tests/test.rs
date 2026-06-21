@@ -1,5 +1,5 @@
 #[cfg(test)]
-use simpleicons_rs::{slug, slug_colored, SIGITHUB};
+use simpleicons_rs::{slug, SIGITHUB};
 
 #[test]
 fn github_icon_static() {
